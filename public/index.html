@@ -1,0 +1,1369 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>1Minute Rewards</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+background:#09070f;
+color:#fff;
+font-family:system-ui,sans-serif;
+min-height:100vh
+}
+
+button{
+font-family:inherit
+}
+
+.hidden{
+display:none!important
+}
+
+.btn{
+background:#7c3cff;
+border:0;
+color:#fff;
+padding:12px 18px;
+border-radius:10px;
+font-weight:800;
+cursor:pointer
+}
+
+.btn:hover{
+opacity:.9
+}
+
+.gold{
+color:#ffbf1f
+}
+
+.muted{
+color:#a69dae
+}
+
+
+/* AUTH */
+
+.auth-page{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px
+}
+
+.auth-box{
+width:100%;
+max-width:430px;
+background:#12101a;
+border:1px solid #2b2535;
+border-radius:20px;
+padding:30px
+}
+
+.logo{
+text-align:center;
+font-size:28px;
+font-weight:900;
+margin-bottom:25px
+}
+
+.logo span{
+color:#ffbf1f
+}
+
+.auth-box h2{
+text-align:center
+}
+
+input,select{
+width:100%;
+padding:13px;
+margin:7px 0;
+background:#0b0910;
+color:#fff;
+border:1px solid #3a3046;
+border-radius:9px;
+outline:none
+}
+
+input:focus,select:focus{
+border-color:#7c3cff
+}
+
+.auth-btn{
+width:100%;
+margin-top:10px
+}
+
+.auth-switch{
+text-align:center;
+margin-top:20px;
+color:#a69dae
+}
+
+.link-btn{
+background:none;
+border:0;
+color:#9b5cff;
+font-weight:800;
+cursor:pointer
+}
+
+.message{
+min-height:22px;
+margin-top:12px
+}
+
+
+/* MAIN APP */
+
+.app{
+min-height:100vh
+}
+
+.topbar{
+height:70px;
+padding:0 5%;
+display:flex;
+align-items:center;
+justify-content:space-between;
+border-bottom:1px solid #2b2535;
+background:#0d0a13;
+position:sticky;
+top:0;
+z-index:10
+}
+
+.brand{
+font-size:21px;
+font-weight:900
+}
+
+.brand span{
+color:#ffbf1f
+}
+
+.logout{
+background:#251b32;
+border:1px solid #3a3046;
+color:#fff;
+padding:9px 14px;
+border-radius:9px;
+cursor:pointer
+}
+
+
+/* NAVIGATION */
+
+.nav{
+display:flex;
+gap:8px;
+padding:14px 5%;
+border-bottom:1px solid #2b2535;
+background:#0d0a13;
+overflow-x:auto
+}
+
+.nav button{
+white-space:nowrap;
+background:#17121f;
+border:1px solid #30263b;
+color:#cfc8d8;
+padding:10px 16px;
+border-radius:9px;
+cursor:pointer
+}
+
+.nav button.active{
+background:#7c3cff;
+color:#fff;
+border-color:#7c3cff
+}
+
+
+/* PAGES */
+
+.page{
+max-width:1050px;
+margin:auto;
+padding:35px 5%;
+min-height:calc(100vh - 130px)
+}
+
+.page-title{
+font-size:32px;
+margin-bottom:8px
+}
+
+.hero{
+background:linear-gradient(135deg,#171020,#0f0b16);
+border:1px solid #30263b;
+border-radius:20px;
+padding:30px;
+margin-bottom:25px
+}
+
+.hero h1{
+font-size:42px;
+margin:8px 0
+}
+
+.points-box{
+display:inline-block;
+margin-top:15px;
+padding:15px 22px;
+background:#20182a;
+border-radius:12px
+}
+
+.points-number{
+font-size:25px;
+font-weight:900;
+color:#ffbf1f
+}
+
+
+/* CARDS */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px
+}
+
+.card{
+background:#12101a;
+border:1px solid #2b2535;
+border-radius:18px;
+padding:22px;
+margin:14px 0
+}
+
+.task-reward{
+color:#ffbf1f;
+font-weight:900;
+font-size:18px
+}
+
+
+/* WITHDRAW */
+
+.withdraw-box{
+max-width:600px
+}
+
+
+/* MOBILE */
+
+@media(max-width:750px){
+
+.topbar{
+padding:0 4%
+}
+
+.page{
+padding:25px 4%
+}
+
+.hero h1{
+font-size:32px
+}
+
+.grid{
+grid-template-columns:1fr
+}
+
+.nav{
+padding:12px 4%
+}
+
+}
+</style>
+</head>
+
+<body>
+
+
+<!-- ================= AUTH ================= -->
+
+<div id="authArea" class="auth-page">
+
+<div class="auth-box">
+
+<div class="logo">
+<span>1</span>Minute Rewards
+</div>
+
+
+<!-- LOGIN -->
+
+<div id="loginForm">
+
+<h2>Welcome Back 👋</h2>
+
+<p class="muted" style="text-align:center">
+Login করুন এবং আপনার rewards চালিয়ে যান।
+</p>
+
+<input
+id="loginEmail"
+type="email"
+placeholder="Email"
+autocomplete="email"
+>
+
+<input
+id="loginPassword"
+type="password"
+placeholder="Password"
+autocomplete="current-password"
+>
+
+<button
+class="btn auth-btn"
+onclick="login()"
+>
+Login
+</button>
+
+<p id="loginMsg" class="muted message"></p>
+
+<div class="auth-switch">
+
+নতুন account?
+
+<button
+class="link-btn"
+onclick="showRegister()"
+>
+Create Account
+</button>
+
+</div>
+
+</div>
+
+
+<!-- REGISTER -->
+
+<div id="registerForm" class="hidden">
+
+<h2>Create Account</h2>
+
+<p class="muted" style="text-align:center">
+আপনার নতুন account তৈরি করুন।
+</p>
+
+<input
+id="registerName"
+type="text"
+placeholder="Your Name"
+autocomplete="name"
+>
+
+<input
+id="registerEmail"
+type="email"
+placeholder="Email"
+autocomplete="email"
+>
+
+<input
+id="registerPassword"
+type="password"
+placeholder="Password (6+ characters)"
+autocomplete="new-password"
+>
+
+<button
+class="btn auth-btn"
+onclick="register()"
+>
+Create Account
+</button>
+
+<p id="registerMsg" class="muted message"></p>
+
+<div class="auth-switch">
+
+আগে থেকেই account আছে?
+
+<button
+class="link-btn"
+onclick="showLogin()"
+>
+Login
+</button>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+
+<!-- ================= APP ================= -->
+
+<div id="appArea" class="app hidden">
+
+
+<header class="topbar">
+
+<div class="brand">
+<span>1</span>Minute REWARDS
+</div>
+
+<button
+class="logout"
+onclick="logout()"
+>
+Logout
+</button>
+
+</header>
+
+
+<!-- NAV -->
+
+<nav class="nav">
+
+<button
+id="navDashboard"
+onclick="showPage('dashboard')"
+>
+🏠 Dashboard
+</button>
+
+<button
+id="navTasks"
+onclick="showPage('tasks')"
+>
+🎯 Tasks
+</button>
+
+<button
+id="navWithdraw"
+onclick="showPage('withdraw')"
+>
+💰 Withdrawal
+</button>
+
+</nav>
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section
+id="dashboardPage"
+class="page"
+>
+
+<div class="hero">
+
+<p class="gold">
+WORK • EARN • REWARD
+</p>
+
+<h1>
+স্বাগতম, <span id="userName"></span> 👋
+</h1>
+
+<p class="muted">
+1Minute Rewards-এ আপনাকে স্বাগতম।
+</p>
+
+<div class="points-box">
+
+<div class="muted">
+Your Points
+</div>
+
+<div
+id="dashboardPoints"
+class="points-number"
+>
+0
+</div>
+
+</div>
+
+</div>
+
+
+<div class="grid">
+
+<div class="card">
+
+<h3>🎯 Available Tasks</h3>
+
+<p class="muted">
+নতুন task complete করে points earn করুন।
+</p>
+
+<button
+class="btn"
+onclick="showPage('tasks')"
+>
+View Tasks
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>💰 Withdrawal</h3>
+
+<p class="muted">
+আপনার points withdrawal request করুন।
+</p>
+
+<button
+class="btn"
+onclick="showPage('withdraw')"
+>
+Withdraw
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>⭐ Your Points</h3>
+
+<p class="muted">
+বর্তমান balance
+</p>
+
+<div
+id="dashboardPoints2"
+class="points-number"
+>
+0
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= TASKS ================= -->
+
+<section
+id="tasksPage"
+class="page hidden"
+>
+
+<h1 class="page-title">
+🎯 Available Tasks
+</h1>
+
+<p class="muted">
+Tasks complete করে points earn করুন।
+</p>
+
+<div
+id="tasksContainer"
+class="grid"
+>
+</div>
+
+</section>
+
+
+<!-- ================= WITHDRAW ================= -->
+
+<section
+id="withdrawPage"
+class="page hidden"
+>
+
+<h1 class="page-title">
+💰 Withdrawal
+</h1>
+
+<p class="muted">
+আপনার earned points withdrawal request করুন।
+</p>
+
+
+<div class="card withdraw-box">
+
+<h2>Withdrawal Request</h2>
+
+<p class="muted">
+Minimum withdrawal: 100 points
+</p>
+
+<div class="points-box">
+
+<div class="muted">
+Available Points
+</div>
+
+<div
+id="withdrawPoints"
+class="points-number"
+>
+0
+</div>
+
+</div>
+
+<br>
+
+
+<input
+id="withdrawAmount"
+type="number"
+placeholder="Points"
+min="100"
+>
+
+
+<select id="withdrawMethod">
+
+<option value="bKash">
+bKash
+</option>
+
+<option value="Nagad">
+Nagad
+</option>
+
+</select>
+
+
+<input
+id="withdrawAccount"
+type="text"
+placeholder="bKash / Nagad Account Number"
+>
+
+
+<button
+class="btn"
+onclick="withdraw()"
+>
+Request Withdrawal
+</button>
+
+
+<p
+id="withdrawMsg"
+class="muted message"
+>
+</p>
+
+</div>
+
+</section>
+
+
+</div>
+
+
+<script>
+
+/* ================= GLOBAL ================= */
+
+let tk =
+localStorage.getItem('1mr_token');
+
+
+/* ================= API ================= */
+
+async function api(url,opt={}){
+
+opt.headers={
+
+...(opt.headers||{}),
+
+'Content-Type':
+'application/json',
+
+...(tk
+?
+{Authorization:'Bearer '+tk}
+:
+{})
+
+};
+
+
+const response =
+await fetch(url,opt);
+
+
+let data;
+
+try{
+
+data =
+await response.json();
+
+}catch(error){
+
+throw new Error(
+'Server response error'
+);
+
+}
+
+
+if(!response.ok){
+
+throw new Error(
+data.error ||
+'Request failed'
+);
+
+}
+
+
+return data;
+
+}
+
+
+/* ================= AUTH SWITCH ================= */
+
+function showLogin(){
+
+document
+.getElementById('loginForm')
+.classList
+.remove('hidden');
+
+document
+.getElementById('registerForm')
+.classList
+.add('hidden');
+
+}
+
+
+function showRegister(){
+
+document
+.getElementById('loginForm')
+.classList
+.add('hidden');
+
+document
+.getElementById('registerForm')
+.classList
+.remove('hidden');
+
+}
+
+
+/* ================= REGISTER ================= */
+
+async function register(){
+
+const name =
+document
+.getElementById('registerName')
+.value
+.trim();
+
+const email =
+document
+.getElementById('registerEmail')
+.value
+.trim();
+
+const password =
+document
+.getElementById('registerPassword')
+.value;
+
+const msg =
+document
+.getElementById('registerMsg');
+
+
+msg.textContent='';
+
+
+if(!name || !email || !password){
+
+msg.textContent=
+'সব তথ্য পূরণ করুন।';
+
+return;
+
+}
+
+
+if(password.length < 6){
+
+msg.textContent=
+'Password কমপক্ষে ৬ অক্ষরের হতে হবে।';
+
+return;
+
+}
+
+
+try{
+
+const data =
+await api('/api/register',{
+
+method:'POST',
+
+body:JSON.stringify({
+
+name:name,
+
+email:email,
+
+password:password
+
+})
+
+});
+
+
+tk =
+data.token;
+
+localStorage.setItem(
+'1mr_token',
+tk
+);
+
+
+await loadUser();
+
+showPage('dashboard');
+
+
+}catch(error){
+
+msg.textContent=
+error.message;
+
+}
+
+}
+
+
+/* ================= LOGIN ================= */
+
+async function login(){
+
+const email =
+document
+.getElementById('loginEmail')
+.value
+.trim();
+
+const password =
+document
+.getElementById('loginPassword')
+.value;
+
+const msg =
+document
+.getElementById('loginMsg');
+
+
+msg.textContent='';
+
+
+if(!email || !password){
+
+msg.textContent=
+'Email এবং Password দিন।';
+
+return;
+
+}
+
+
+try{
+
+const data =
+await api('/api/login',{
+
+method:'POST',
+
+body:JSON.stringify({
+
+email:email,
+
+password:password
+
+})
+
+});
+
+
+tk =
+data.token;
+
+localStorage.setItem(
+'1mr_token',
+tk
+);
+
+
+await loadUser();
+
+showPage('dashboard');
+
+
+}catch(error){
+
+msg.textContent=
+error.message;
+
+}
+
+}
+
+
+/* ================= LOAD USER ================= */
+
+async function loadUser(){
+
+try{
+
+const data =
+await api('/api/me');
+
+
+document
+.getElementById('authArea')
+.classList
+.add('hidden');
+
+
+document
+.getElementById('appArea')
+.classList
+.remove('hidden');
+
+
+document
+.getElementById('userName')
+.textContent =
+data.user.name;
+
+
+updatePoints(
+data.user.points
+);
+
+
+}catch(error){
+
+logout();
+
+}
+
+}
+
+
+/* ================= POINTS ================= */
+
+function updatePoints(points){
+
+document
+.getElementById('dashboardPoints')
+.textContent =
+points;
+
+document
+.getElementById('dashboardPoints2')
+.textContent =
+points;
+
+document
+.getElementById('withdrawPoints')
+.textContent =
+points;
+
+}
+
+
+/* ================= PAGE NAVIGATION ================= */
+
+function showPage(page){
+
+const pages=[
+
+'dashboardPage',
+'tasksPage',
+'withdrawPage'
+
+];
+
+
+pages.forEach(id=>{
+
+document
+.getElementById(id)
+.classList
+.add('hidden');
+
+});
+
+
+const navs=[
+
+'navDashboard',
+'navTasks',
+'navWithdraw'
+
+];
+
+
+navs.forEach(id=>{
+
+document
+.getElementById(id)
+.classList
+.remove('active');
+
+});
+
+
+if(page==='dashboard'){
+
+document
+.getElementById('dashboardPage')
+.classList
+.remove('hidden');
+
+document
+.getElementById('navDashboard')
+.classList
+.add('active');
+
+}
+
+
+if(page==='tasks'){
+
+document
+.getElementById('tasksPage')
+.classList
+.remove('hidden');
+
+document
+.getElementById('navTasks')
+.classList
+.add('active');
+
+loadTasks();
+
+}
+
+
+if(page==='withdraw'){
+
+document
+.getElementById('withdrawPage')
+.classList
+.remove('hidden');
+
+document
+.getElementById('navWithdraw')
+.classList
+.add('active');
+
+}
+
+window.scrollTo({
+top:0,
+behavior:'smooth'
+});
+
+}
+
+
+/* ================= TASKS ================= */
+
+async function loadTasks(){
+
+const container =
+document
+.getElementById('tasksContainer');
+
+
+container.innerHTML =
+'<p class="muted">Loading tasks...</p>';
+
+
+try{
+
+const data =
+await api('/api/tasks');
+
+
+if(!data.tasks.length){
+
+container.innerHTML =
+'<p class="muted">এই মুহূর্তে কোনো task নেই।</p>';
+
+return;
+
+}
+
+
+container.innerHTML =
+data.tasks.map(task=>`
+
+<div class="card">
+
+<h3>
+${escapeHtml(task.title)}
+</h3>
+
+<p class="muted">
+${escapeHtml(task.description)}
+</p>
+
+<div class="task-reward">
++${task.reward} Points
+</div>
+
+<br>
+
+<button
+class="btn"
+${task.completed?'disabled':''}
+onclick="completeTask(${task.id})"
+>
+
+${task.completed
+?
+'Completed ✓'
+:
+'Start Task'
+}
+
+</button>
+
+</div>
+
+`).join('');
+
+
+}catch(error){
+
+container.innerHTML=
+'<p class="muted">'+
+escapeHtml(error.message)+
+'</p>';
+
+}
+
+}
+
+
+/* ================= COMPLETE TASK ================= */
+
+async function completeTask(id){
+
+try{
+
+const data =
+await api(
+'/api/tasks/'+id+'/complete',
+{
+method:'POST'
+}
+);
+
+
+updatePoints(
+data.points
+);
+
+
+await loadTasks();
+
+
+}catch(error){
+
+alert(error.message);
+
+}
+
+}
+
+
+/* ================= WITHDRAW ================= */
+
+async function withdraw(){
+
+const amount =
+Number(
+document
+.getElementById('withdrawAmount')
+.value
+);
+
+const method =
+document
+.getElementById('withdrawMethod')
+.value;
+
+const account =
+document
+.getElementById('withdrawAccount')
+.value
+.trim();
+
+const msg =
+document
+.getElementById('withdrawMsg');
+
+
+msg.textContent='';
+
+
+if(!amount || amount<100){
+
+msg.textContent=
+'Minimum withdrawal is 100 points.';
+
+return;
+
+}
+
+
+if(!account){
+
+msg.textContent=
+'Account number দিন।';
+
+return;
+
+}
+
+
+try{
+
+await api(
+'/api/withdrawals',
+{
+
+method:'POST',
+
+body:JSON.stringify({
+
+amount:amount,
+
+method:method,
+
+account:account
+
+})
+
+}
+);
+
+
+msg.textContent=
+'Withdrawal request submitted successfully.';
+
+
+document
+.getElementById('withdrawAmount')
+.value='';
+
+
+document
+.getElementById('withdrawAccount')
+.value='';
+
+
+await loadUser();
+
+
+}catch(error){
+
+msg.textContent=
+error.message;
+
+}
+
+}
+
+
+/* ================= LOGOUT ================= */
+
+function logout(){
+
+localStorage.removeItem(
+'1mr_token'
+);
+
+tk=null;
+
+document
+.getElementById('appArea')
+.classList
+.add('hidden');
+
+document
+.getElementById('authArea')
+.classList
+.remove('hidden');
+
+showLogin();
+
+}
+
+
+/* ================= ESCAPE ================= */
+
+function escapeHtml(value){
+
+return String(value)
+
+.replace(/&/g,'&amp;')
+
+.replace(/</g,'&lt;')
+
+.replace(/>/g,'&gt;')
+
+.replace(/"/g,'&quot;')
+
+.replace(/'/g,'&#039;');
+
+}
+
+
+/* ================= START ================= */
+
+if(tk){
+
+loadUser();
+
+}else{
+
+showLogin();
+
+}
+
+</script>
+
+</body>
+</html>
