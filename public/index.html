@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>1Minute Rewards</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:#09070f;
+  color:#fff;
+  font-family:system-ui,sans-serif
+}
+
+.bar{
+  padding:18px 6%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #2b2535
+}
+
+.brand{
+  font-size:21px;
+  font-weight:900
+}
+
+.brand b,.gold{
+  color:#ffbf1f
+}
+
+.wrap{
+  max-width:1050px;
+  margin:auto;
+  padding:45px 6%
+}
+
+.hero{
+  padding:45px 0
+}
+
+.hero h1{
+  font-size:52px;
+  line-height:1.05
+}
+
+.hero h1 span{
+  color:#9b5cff
+}
+
+.card{
+  background:#12101a;
+  border:1px solid #2b2535;
+  border-radius:18px;
+  padding:22px;
+  margin:14px 0
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px
+}
+
+.btn{
+  background:#7c3cff;
+  border:0;
+  color:#fff;
+  padding:12px 17px;
+  border-radius:10px;
+  font-weight:800;
+  cursor:pointer
+}
+
+.btn:disabled{
+  opacity:.5;
+  cursor:not-allowed
+}
+
+input,select{
+  width:100%;
+  padding:12px;
+  margin:7px 0;
+  background:#0b0910;
+  color:#fff;
+  border:1px solid #3a3046;
+  border-radius:9px
+}
+
+.hidden{
+  display:none
+}
+
+.muted{
+  color:#a69dae
+}
+
+.message{
+  margin-top:12px;
+  min-height:22px
+}
+
+@media(max-width:750px){
+  .grid{
+    grid-template-columns:1fr
+  }
+
+  .hero h1{
+    font-size:40px
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="bar">
+  <div class="brand">
+    <span class="gold">1</span>Minute <b>REWARDS</b>
+  </div>
+
+  <button class="btn" onclick="logout()">Logout</button>
+</header>
+
+<main class="wrap">
+
+<section id="auth" class="card">
+
+  <h2>Account</h2>
+
+  <input
+    id="name"
+    type="text"
+    placeholder="Name"
+    autocomplete="name"
+  >
+
+  <input
+    id="email"
+    type="email"
+    placeholder="Email"
+    autocomplete="email"
+  >
+
+  <input
+    id="pass"
+    type="password"
+    placeholder="Password (6+ characters)"
+    autocomplete="current-password"
+  >
+
+  <button class="btn" onclick="register()">
+    Create account
+  </button>
+
+  <button class="btn" onclick="login()">
+    Login
+  </button>
+
+  <p id="msg" class="muted message"></p>
+
+</section>
+
+
+<section id="app" class="hidden">
+
+  <div class="hero">
+
+    <p class="gold">
+      WORK • EARN • REWARD
+    </p>
+
+    <h1>
+      স্বাগতম, <span id="userName"></span>
+    </h1>
+
+    <p class="muted">
+      আপনার Points:
+      <b id="points">0</b>
+    </p>
+
+  </div>
+
+
+  <h2>Available Tasks</h2>
+
+  <div id="tasks" class="grid"></div>
+
+
+  <div class="card">
+
+    <h2>Withdrawal Request</h2>
+
+    <p class="muted">
+      Demo rule: minimum 100 points.
+    </p>
+
+    <input
+      id="amount"
+      type="number"
+      placeholder="Points"
+      min="100"
+    >
+
+    <select id="method">
+      <option value="bKash">bKash</option>
+      <option value="Nagad">Nagad</option>
+    </select>
+
+    <input
+      id="account"
+      type="text"
+      placeholder="Account number"
+    >
+
+    <button class="btn" onclick="withdraw()">
+      Request Withdrawal
+    </button>
+
+    <p id="wmsg" class="muted message"></p>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<script>
+
+let tk = localStorage.getItem('1mr_token');
+
+
+async function api(url, opt = {}) {
+
+  opt.headers = {
+    ...(opt.headers || {}),
+    'Content-Type': 'application/json',
+    ...(tk ? {Authorization:'Bearer ' + tk} : {})
+  };
+
+  const response = await fetch(url, opt);
+
+  let data;
+
+  try {
+    data = await response.json();
+  } catch (error) {
+    throw new Error('Server response error');
+  }
+
+  if (!response.ok) {
+    throw new Error(data.error || 'Request failed');
+  }
+
+  return data;
+}
+
+
+/* REGISTER */
+
+async function register() {
+
+  const nameValue =
+    document.getElementById('name').value.trim();
+
+  const emailValue =
+    document.getElementById('email').value.trim();
+
+  const passwordValue =
+    document.getElementById('pass').value;
+
+  const message =
+    document.getElementById('msg');
+
+
+  message.textContent = '';
+
+
+  if (!nameValue || !emailValue || !passwordValue) {
+
+    message.textContent =
+      'সব তথ্য পূরণ করুন।';
+
+    return;
+  }
+
+
+  if (passwordValue.length < 6) {
+
+    message.textContent =
+      'Password কমপক্ষে ৬ অক্ষরের হতে হবে।';
+
+    return;
+  }
+
+
+  try {
+
+    const data = await api('/api/register', {
+
+      method:'POST',
+
+      body:JSON.stringify({
+        name:nameValue,
+        email:emailValue,
+        password:passwordValue
+      })
+
+    });
+
+
+    tk = data.token;
+
+    localStorage.setItem(
+      '1mr_token',
+      tk
+    );
+
+
+    message.textContent =
+      'Account তৈরি হয়েছে!';
+
+
+    await load();
+
+
+  } catch (error) {
+
+    message.textContent =
+      error.message;
+
+  }
+}
+
+
+/* LOGIN */
+
+async function login() {
+
+  const emailValue =
+    document.getElementById('email').value.trim();
+
+  const passwordValue =
+    document.getElementById('pass').value;
+
+  const message =
+    document.getElementById('msg');
+
+
+  message.textContent = '';
+
+
+  if (!emailValue || !passwordValue) {
+
+    message.textContent =
+      'Email এবং Password দিন।';
+
+    return;
+  }
+
+
+  try {
+
+    const data = await api('/api/login', {
+
+      method:'POST',
+
+      body:JSON.stringify({
+        email:emailValue,
+        password:passwordValue
+      })
+
+    });
+
+
+    tk = data.token;
+
+    localStorage.setItem(
+      '1mr_token',
+      tk
+    );
+
+
+    await load();
+
+
+  } catch (error) {
+
+    message.textContent =
+      error.message;
+
+  }
+}
+
+
+/* LOAD USER */
+
+async function load() {
+
+  try {
+
+    const userData =
+      await api('/api/me');
+
+
+    document
+      .getElementById('auth')
+      .classList
+      .add('hidden');
+
+
+    document
+      .getElementById('app')
+      .classList
+      .remove('hidden');
+
+
+    document
+      .getElementById('userName')
+      .textContent =
+      userData.user.name;
+
+
+    document
+      .getElementById('points')
+      .textContent =
+      userData.user.points;
+
+
+    const taskData =
+      await api('/api/tasks');
+
+
+    const taskContainer =
+      document.getElementById('tasks');
+
+
+    taskContainer.innerHTML =
+      taskData.tasks.map(task => `
+
+        <div class="card">
+
+          <h3>${escapeHtml(task.title)}</h3>
+
+          <p class="muted">
+            ${escapeHtml(task.description)}
+          </p>
+
+          <b class="gold">
+            +${task.reward} points
+          </b>
+
+          <br><br>
+
+          <button
+            class="btn"
+            ${task.completed ? 'disabled' : ''}
+            onclick="completeTask(${task.id})"
+          >
+            ${task.completed ? 'Completed' : 'Start Task'}
+          </button>
+
+        </div>
+
+      `).join('');
+
+
+  } catch (error) {
+
+    localStorage.removeItem('1mr_token');
+
+    tk = null;
+
+    document
+      .getElementById('auth')
+      .classList
+      .remove('hidden');
+
+    document
+      .getElementById('app')
+      .classList
+      .add('hidden');
+
+  }
+}
+
+
+/* COMPLETE TASK */
+
+async function completeTask(id) {
+
+  try {
+
+    const data =
+      await api('/api/tasks/' + id + '/complete', {
+
+        method:'POST'
+
+      });
+
+
+    document
+      .getElementById('points')
+      .textContent =
+      data.points;
+
+
+    await load();
+
+
+  } catch (error) {
+
+    alert(error.message);
+
+  }
+}
+
+
+/* WITHDRAW */
+
+async function withdraw() {
+
+  const amount =
+    Number(
+      document.getElementById('amount').value
+    );
+
+  const method =
+    document.getElementById('method').value;
+
+  const account =
+    document.getElementById('account').value.trim();
+
+  const message =
+    document.getElementById('wmsg');
+
+
+  message.textContent = '';
+
+
+  if (!amount || amount < 100) {
+
+    message.textContent =
+      'Minimum withdrawal is 100 points.';
+
+    return;
+  }
+
+
+  if (!account) {
+
+    message.textContent =
+      'Account number দিন।';
+
+    return;
+  }
+
+
+  try {
+
+    await api('/api/withdrawals', {
+
+      method:'POST',
+
+      body:JSON.stringify({
+        amount:amount,
+        method:method,
+        account:account
+      })
+
+    });
+
+
+    message.textContent =
+      'Withdrawal request submitted.';
+
+
+    document
+      .getElementById('amount')
+      .value = '';
+
+
+    document
+      .getElementById('account')
+      .value = '';
+
+
+    await load();
+
+
+  } catch (error) {
+
+    message.textContent =
+      error.message;
+
+  }
+}
+
+
+/* LOGOUT */
+
+function logout() {
+
+  localStorage.removeItem('1mr_token');
+
+  tk = null;
+
+  location.reload();
+
+}
+
+
+/* BASIC HTML ESCAPE */
+
+function escapeHtml(value) {
+
+  return String(value)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+
+}
+
+
+/* AUTO LOGIN */
+
+if (tk) {
+
+  load();
+
+}
+
+</script>
+
+</body>
+</html>
