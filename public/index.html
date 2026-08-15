@@ -1,0 +1,1864 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>1Minute Rewards</title>
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+  --bg:#f7f7fb;
+  --card:#fff;
+  --text:#171521;
+  --muted:#777487;
+  --purple:#6d35e8;
+  --purple2:#8a55ff;
+  --gold:#ffb900;
+  --border:#ece9f3;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,sans-serif;
+}
+
+button,input,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* LOGIN / REGISTER */
+
+#authPage{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:22px;
+  background:linear-gradient(145deg,#5b25d8,#8a55ff);
+}
+
+.authBox{
+  width:100%;
+  max-width:430px;
+  background:#fff;
+  border-radius:26px;
+  padding:28px;
+  box-shadow:0 20px 60px #32107855;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:900;
+  margin-bottom:7px;
+}
+
+.logo .one{
+  color:var(--gold);
+}
+
+.logo b{
+  color:var(--purple);
+}
+
+.authBox h1{
+  margin:8px 0 5px;
+  font-size:28px;
+}
+
+.authBox p{
+  color:var(--muted);
+}
+
+.field{
+  margin:12px 0;
+}
+
+.field label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+input,select{
+  width:100%;
+  padding:13px 14px;
+  border:1px solid #ddd8e8;
+  border-radius:12px;
+  outline:none;
+  background:#faf9fc;
+}
+
+input:focus,select:focus{
+  border-color:var(--purple);
+}
+
+.btn{
+  border:0;
+  border-radius:12px;
+  padding:13px 16px;
+  font-weight:800;
+}
+
+.primary{
+  background:var(--purple);
+  color:white;
+  width:100%;
+}
+
+.secondary{
+  background:#eee9fa;
+  color:var(--purple);
+}
+
+.switch{
+  text-align:center;
+  margin-top:17px;
+  color:var(--muted);
+  font-size:14px;
+}
+
+.switch button{
+  border:0;
+  background:none;
+  color:var(--purple);
+  font-weight:800;
+}
+
+.msg{
+  font-size:13px;
+  color:#d33;
+  margin-top:8px;
+  min-height:18px;
+}
+
+/* APP */
+
+#app{
+  max-width:520px;
+  margin:auto;
+  min-height:100vh;
+  padding-bottom:82px;
+}
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(12px);
+  padding:15px 18px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.topbrand{
+  font-weight:900;
+  font-size:20px;
+}
+
+.topbrand span{
+  color:var(--gold);
+}
+
+.iconBtn{
+  border:0;
+  background:#f1edfa;
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  color:var(--purple);
+  font-size:18px;
+}
+
+.page{
+  padding:18px;
+}
+
+.pageTitle{
+  font-size:23px;
+  font-weight:900;
+  margin:6px 0;
+}
+
+.sub{
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* HOME HERO */
+
+.hero{
+  background:linear-gradient(135deg,#6a30e5,#8d55ff);
+  color:#fff;
+  border-radius:22px;
+  padding:21px;
+  margin-bottom:16px;
+  box-shadow:0 12px 30px #6733d533;
+}
+
+.hero .small{
+  opacity:.85;
+  font-size:13px;
+}
+
+.hero h2{
+  font-size:31px;
+  margin:7px 0;
+}
+
+.heroRow{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.coin{
+  width:48px;
+  height:48px;
+  border-radius:16px;
+  background:#ffffff22;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+}
+
+/* STATS */
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:11px;
+}
+
+.stat{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:15px;
+}
+
+.stat b{
+  font-size:21px;
+}
+
+.stat span{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  margin-top:3px;
+}
+
+/* SECTION */
+
+.sectionHead{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:20px 0 10px;
+}
+
+.sectionHead h3{
+  margin:0;
+  font-size:18px;
+}
+
+.sectionHead button{
+  border:0;
+  background:none;
+  color:var(--purple);
+  font-weight:800;
+}
+
+/* TASK */
+
+.task{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:15px;
+  margin:10px 0;
+  display:flex;
+  gap:13px;
+  align-items:center;
+}
+
+.taskIcon{
+  width:45px;
+  height:45px;
+  border-radius:13px;
+  background:#f0eaff;
+  color:var(--purple);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  flex:none;
+}
+
+.taskBody{
+  flex:1;
+}
+
+.taskBody h4{
+  margin:0 0 4px;
+}
+
+.taskBody p{
+  margin:0;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.reward{
+  color:#e19c00;
+  font-weight:900;
+  font-size:13px;
+}
+
+.task .btn{
+  padding:9px 12px;
+  background:var(--purple);
+  color:#fff;
+  font-size:12px;
+}
+
+.task .btn:disabled{
+  background:#d8d4df;
+  color:#777;
+}
+
+/* CARD */
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:17px;
+  margin:12px 0;
+}
+
+/* WALLET */
+
+.walletHero{
+  background:#201c2d;
+  color:#fff;
+  border-radius:20px;
+  padding:20px;
+}
+
+.walletHero .points{
+  font-size:34px;
+  font-weight:900;
+  margin:5px 0 15px;
+}
+
+.walletHero small{
+  color:#c6bfd4;
+}
+
+/* REFERRAL */
+
+.refCode{
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:1px;
+  text-align:center;
+  background:#f4efff;
+  color:var(--purple);
+  padding:15px;
+  border-radius:13px;
+  margin:12px 0;
+}
+
+/* PROFILE */
+
+.profileHead{
+  text-align:center;
+  padding:12px;
+}
+
+.avatar{
+  width:76px;
+  height:76px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#6d35e8,#b18aff);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  font-weight:900;
+  margin:auto;
+}
+
+.menu{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:17px;
+  overflow:hidden;
+}
+
+.menu button{
+  width:100%;
+  padding:16px;
+  border:0;
+  border-bottom:1px solid var(--border);
+  background:#fff;
+  text-align:left;
+  font-weight:700;
+}
+
+.menu button:last-child{
+  border-bottom:0;
+}
+
+.danger{
+  color:#e33;
+}
+
+/* BOTTOM NAV */
+
+.bottomNav{
+  position:fixed;
+  z-index:20;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:520px;
+  height:72px;
+  background:#fff;
+  border-top:1px solid var(--border);
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  padding:7px 6px calc(7px + env(safe-area-inset-bottom));
+}
+
+.navItem{
+  border:0;
+  background:#fff;
+  color:#8a8594;
+  font-size:11px;
+  font-weight:700;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  border-radius:12px;
+}
+
+.navItem .ico{
+  font-size:20px;
+}
+
+.navItem.active{
+  color:var(--purple);
+  background:#f3effc;
+}
+
+.notice{
+  padding:11px 13px;
+  border-radius:12px;
+  background:#fff8df;
+  color:#7a5b00;
+  font-size:13px;
+}
+
+@media(min-width:700px){
+  body{
+    background:#eeeef4;
+  }
+
+  #app{
+    background:var(--bg);
+    box-shadow:0 0 35px #00000010;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= LOGIN / REGISTER ================= -->
+
+<section id="authPage">
+
+  <div class="authBox">
+
+    <div class="logo">
+      <span class="one">1</span>Minute
+      <b>REWARDS</b>
+    </div>
+
+    <!-- LOGIN -->
+
+    <div id="loginBox">
+
+      <h1>Welcome Back 👋</h1>
+
+      <p>আপনার অ্যাকাউন্টে লগইন করুন</p>
+
+      <div class="field">
+        <label>Email</label>
+        <input
+          id="loginEmail"
+          type="email"
+          placeholder="you@example.com">
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <input
+          id="loginPass"
+          type="password"
+          placeholder="Password">
+      </div>
+
+      <button
+        class="btn primary"
+        onclick="doLogin()">
+        Login
+      </button>
+
+      <div id="loginMsg" class="msg"></div>
+
+      <div class="switch">
+        অ্যাকাউন্ট নেই?
+        <button onclick="showRegister()">
+          Create account
+        </button>
+      </div>
+
+    </div>
+
+
+    <!-- REGISTER -->
+
+    <div id="registerBox" class="hidden">
+
+      <h1>Create Account 🚀</h1>
+
+      <p>1Minute Rewards-এ যোগ দিন</p>
+
+      <div class="field">
+        <label>Name</label>
+        <input
+          id="regName"
+          placeholder="আপনার নাম">
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input
+          id="regEmail"
+          type="email"
+          placeholder="you@example.com">
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <input
+          id="regPass"
+          type="password"
+          placeholder="কমপক্ষে 6 অক্ষর">
+      </div>
+
+      <button
+        class="btn primary"
+        onclick="doRegister()">
+        Create account
+      </button>
+
+      <div id="regMsg" class="msg"></div>
+
+      <div class="switch">
+        আগেই অ্যাকাউন্ট আছে?
+        <button onclick="showLogin()">
+          Login
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= APP ================= -->
+
+<div id="app" class="hidden">
+
+
+<header class="topbar">
+
+  <div class="topbrand">
+    <span>1</span>Minute Rewards
+  </div>
+
+  <button
+    class="iconBtn"
+    onclick="showPage('profile')">
+    👤
+  </button>
+
+</header>
+
+
+<!-- ================= HOME ================= -->
+
+<main
+  id="page-home"
+  class="page">
+
+  <div class="hero">
+
+    <div class="small">
+      WORK • EARN • REWARD
+    </div>
+
+    <div class="heroRow">
+
+      <div>
+
+        <div>
+          Hello,
+          <b id="homeName">User</b>
+          👋
+        </div>
+
+        <h2>
+          <span id="homePoints">0</span>
+          Points
+        </h2>
+
+      </div>
+
+      <div class="coin">
+        🪙
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="grid2">
+
+    <div class="stat">
+      <b id="homeTaskCount">0</b>
+      <span>Available Tasks</span>
+    </div>
+
+    <div class="stat">
+      <b id="homeCompleted">0</b>
+      <span>Completed</span>
+    </div>
+
+  </div>
+
+
+  <div class="sectionHead">
+
+    <h3>
+      Today's Tasks
+    </h3>
+
+    <button onclick="showPage('tasks')">
+      See All
+    </button>
+
+  </div>
+
+
+  <div id="homeTasks"></div>
+
+</main>
+
+
+<!-- ================= TASKS ================= -->
+
+<main
+  id="page-tasks"
+  class="page hidden">
+
+  <div class="pageTitle">
+    Tasks
+  </div>
+
+  <div class="sub">
+    টাস্ক সম্পন্ন করে Points earn করুন
+  </div>
+
+
+  <div class="card">
+
+    <div class="grid2">
+
+      <div class="stat">
+        <b id="taskAvailable">0</b>
+        <span>Available</span>
+      </div>
+
+      <div class="stat">
+        <b id="taskDone">0</b>
+        <span>Completed</span>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div id="allTasks"></div>
+
+</main>
+
+
+<!-- ================= WALLET ================= -->
+
+<main
+  id="page-wallet"
+  class="page hidden">
+
+  <div class="pageTitle">
+    Wallet
+  </div>
+
+  <div class="sub">
+    আপনার Points এবং withdrawal
+  </div>
+
+
+  <div class="walletHero">
+
+    <small>
+      Total Points
+    </small>
+
+    <div
+      class="points"
+      id="walletPoints">
+      0
+    </div>
+
+    <small>
+      Tasks complete করে Points বাড়ান
+    </small>
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>
+      Withdraw Points
+    </h3>
+
+    <div class="notice">
+      Minimum withdrawal: 100 points
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        Points
+      </label>
+
+      <input
+        id="withdrawAmount"
+        type="number"
+        min="100"
+        placeholder="100">
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        Payment Method
+      </label>
+
+      <select id="withdrawMethod">
+
+        <option>bKash</option>
+        <option>Nagad</option>
+
+      </select>
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        Account Number
+      </label>
+
+      <input
+        id="withdrawAccount"
+        placeholder="01XXXXXXXXX">
+
+    </div>
+
+
+    <button
+      class="btn primary"
+      onclick="withdrawPoints()">
+
+      Request Withdrawal
+
+    </button>
+
+
+    <div
+      id="withdrawMsg"
+      class="msg">
+    </div>
+
+  </div>
+
+</main>
+
+
+<!-- ================= REFER ================= -->
+
+<main
+  id="page-refer"
+  class="page hidden">
+
+  <div class="pageTitle">
+    Refer & Earn
+  </div>
+
+  <div class="sub">
+    বন্ধুদের invite করুন
+  </div>
+
+
+  <div class="card">
+
+    <h3>
+      Your Referral Code
+    </h3>
+
+
+    <div
+      class="refCode"
+      id="refCode">
+      —
+    </div>
+
+
+    <button
+      class="btn primary"
+      onclick="shareReferral()">
+
+      Share Referral
+
+    </button>
+
+
+    <p class="sub">
+
+      Referral system-এর reward rules
+      পরে Admin Panel থেকে সেট করা যাবে।
+
+    </p>
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>
+      How it works
+    </h3>
+
+    <p class="sub">
+      1. আপনার referral code শেয়ার করুন
+    </p>
+
+    <p class="sub">
+      2. বন্ধু account তৈরি করবে
+    </p>
+
+    <p class="sub">
+      3. ভবিষ্যতে referral reward যোগ করা যাবে
+    </p>
+
+  </div>
+
+</main>
+
+
+<!-- ================= PROFILE ================= -->
+
+<main
+  id="page-profile"
+  class="page hidden">
+
+  <div class="pageTitle">
+    Profile
+  </div>
+
+
+  <div class="card profileHead">
+
+    <div
+      class="avatar"
+      id="avatar">
+      U
+    </div>
+
+
+    <h2 id="profileName">
+      User
+    </h2>
+
+
+    <div
+      class="sub"
+      id="profileEmail">
+      email
+    </div>
+
+  </div>
+
+
+  <div class="menu">
+
+    <button>
+      ⚙️ Account Settings
+    </button>
+
+    <button>
+      💳 Payment Method
+    </button>
+
+    <button>
+      ❓ Help & Support
+    </button>
+
+    <button>
+      📄 Terms & Conditions
+    </button>
+
+    <button>
+      🔒 Privacy Policy
+    </button>
+
+    <button
+      class="danger"
+      onclick="logout()">
+
+      🚪 Logout
+
+    </button>
+
+  </div>
+
+</main>
+
+
+<!-- ================= BOTTOM NAVIGATION ================= -->
+
+<nav class="bottomNav">
+
+  <button
+    class="navItem active"
+    data-page="home"
+    onclick="showPage('home')">
+
+    <span class="ico">
+      ⌂
+    </span>
+
+    Home
+
+  </button>
+
+
+  <button
+    class="navItem"
+    data-page="tasks"
+    onclick="showPage('tasks')">
+
+    <span class="ico">
+      ☷
+    </span>
+
+    Tasks
+
+  </button>
+
+
+  <button
+    class="navItem"
+    data-page="wallet"
+    onclick="showPage('wallet')">
+
+    <span class="ico">
+      ▣
+    </span>
+
+    Wallet
+
+  </button>
+
+
+  <button
+    class="navItem"
+    data-page="refer"
+    onclick="showPage('refer')">
+
+    <span class="ico">
+      ♣
+    </span>
+
+    Refer
+
+  </button>
+
+
+  <button
+    class="navItem"
+    data-page="profile"
+    onclick="showPage('profile')">
+
+    <span class="ico">
+      ●
+    </span>
+
+    Profile
+
+  </button>
+
+</nav>
+
+</div>
+
+
+<script>
+
+let tk =
+  localStorage.getItem('1mr_token');
+
+let currentUser = null;
+
+let currentTasks = [];
+
+
+function $(id){
+
+  return document.getElementById(id);
+
+}
+
+
+/* ================= LOGIN / REGISTER ================= */
+
+function showLogin(){
+
+  $('loginBox')
+    .classList
+    .remove('hidden');
+
+  $('registerBox')
+    .classList
+    .add('hidden');
+
+}
+
+
+function showRegister(){
+
+  $('loginBox')
+    .classList
+    .add('hidden');
+
+  $('registerBox')
+    .classList
+    .remove('hidden');
+
+}
+
+
+/* ================= API ================= */
+
+async function api(url,opt={}){
+
+  opt.headers={
+    ...(opt.headers||{}),
+
+    'Content-Type':
+      'application/json',
+
+    ...(tk
+      ? {
+          Authorization:
+            'Bearer '+tk
+        }
+      : {})
+  };
+
+
+  const r =
+    await fetch(url,opt);
+
+
+  let j={};
+
+  try{
+
+    j=await r.json();
+
+  }catch(e){}
+
+
+  if(!r.ok){
+
+    throw Error(
+      j.error ||
+      'Request failed'
+    );
+
+  }
+
+
+  return j;
+
+}
+
+
+/* ================= LOGIN ================= */
+
+async function doLogin(){
+
+  $('loginMsg').textContent='';
+
+
+  try{
+
+    const j =
+      await api(
+        '/api/login',
+        {
+          method:'POST',
+
+          body:
+            JSON.stringify({
+
+              email:
+                $('loginEmail')
+                .value
+                .trim(),
+
+              password:
+                $('loginPass')
+                .value
+
+            })
+
+        }
+      );
+
+
+    tk=j.token;
+
+    localStorage.setItem(
+      '1mr_token',
+      tk
+    );
+
+
+    await startApp();
+
+
+  }catch(e){
+
+    $('loginMsg')
+      .textContent=e.message;
+
+  }
+
+}
+
+
+/* ================= REGISTER ================= */
+
+async function doRegister(){
+
+  $('regMsg').textContent='';
+
+
+  const name =
+    $('regName')
+    .value
+    .trim();
+
+  const email =
+    $('regEmail')
+    .value
+    .trim();
+
+  const password =
+    $('regPass')
+    .value;
+
+
+  if(
+    !name ||
+    !email ||
+    !password
+  ){
+
+    $('regMsg')
+      .textContent=
+      'সব তথ্য পূরণ করুন';
+
+    return;
+
+  }
+
+
+  if(password.length<6){
+
+    $('regMsg')
+      .textContent=
+      'Password কমপক্ষে 6 অক্ষরের হতে হবে';
+
+    return;
+
+  }
+
+
+  try{
+
+    const j =
+      await api(
+        '/api/register',
+        {
+          method:'POST',
+
+          body:
+            JSON.stringify({
+
+              name:name,
+
+              email:email,
+
+              password:password
+
+            })
+
+        }
+      );
+
+
+    tk=j.token;
+
+    localStorage.setItem(
+      '1mr_token',
+      tk
+    );
+
+
+    await startApp();
+
+
+  }catch(e){
+
+    $('regMsg')
+      .textContent=e.message;
+
+  }
+
+}
+
+
+/* ================= START APP ================= */
+
+async function startApp(){
+
+  $('authPage')
+    .classList
+    .add('hidden');
+
+  $('app')
+    .classList
+    .remove('hidden');
+
+
+  await loadData();
+
+
+  showPage('home');
+
+}
+
+
+/* ================= LOAD DATA ================= */
+
+async function loadData(){
+
+  try{
+
+    const me =
+      await api('/api/me');
+
+
+    currentUser =
+      me.user;
+
+
+    const tr =
+      await api('/api/tasks');
+
+
+    currentTasks =
+      tr.tasks || [];
+
+
+    $('homeName')
+      .textContent=
+      currentUser.name;
+
+
+    $('homePoints')
+      .textContent=
+      currentUser.points;
+
+
+    $('walletPoints')
+      .textContent=
+      currentUser.points;
+
+
+    $('profileName')
+      .textContent=
+      currentUser.name;
+
+
+    $('profileEmail')
+      .textContent=
+      currentUser.email;
+
+
+    $('avatar')
+      .textContent=
+      (
+        currentUser.name ||
+        'U'
+      )
+      .charAt(0)
+      .toUpperCase();
+
+
+    $('refCode')
+      .textContent=
+      currentUser.referral_code ||
+      '—';
+
+
+    const done =
+      currentTasks
+      .filter(
+        x=>x.completed
+      )
+      .length;
+
+
+    $('homeTaskCount')
+      .textContent=
+      currentTasks.length;
+
+
+    $('homeCompleted')
+      .textContent=
+      done;
+
+
+    $('taskAvailable')
+      .textContent=
+      currentTasks.length;
+
+
+    $('taskDone')
+      .textContent=
+      done;
+
+
+    renderTasks();
+
+
+  }catch(e){
+
+    localStorage.removeItem(
+      '1mr_token'
+    );
+
+    tk=null;
+
+
+    $('app')
+      .classList
+      .add('hidden');
+
+
+    $('authPage')
+      .classList
+      .remove('hidden');
+
+
+    showLogin();
+
+  }
+
+}
+
+
+/* ================= TASK UI ================= */
+
+function taskHTML(x){
+
+  let icon='🎁';
+
+
+  if(
+    x.title
+      .toLowerCase()
+      .includes('quiz')
+  ){
+
+    icon='📝';
+
+  }
+  else if(
+    x.title
+      .toLowerCase()
+      .includes('survey')
+  ){
+
+    icon='📋';
+
+  }
+
+
+  return `
+
+  <div class="task">
+
+    <div class="taskIcon">
+      ${icon}
+    </div>
+
+
+    <div class="taskBody">
+
+      <h4>
+        ${escapeHTML(x.title)}
+      </h4>
+
+      <p>
+        ${escapeHTML(
+          x.description ||
+          'Complete this task and earn points'
+        )}
+      </p>
+
+      <div class="reward">
+        +${x.reward} points
+      </div>
+
+    </div>
+
+
+    <button
+      class="btn"
+      ${x.completed?'disabled':''}
+      onclick="completeTask(${x.id})">
+
+      ${x.completed?'Done':'Start'}
+
+    </button>
+
+  </div>
+
+  `;
+
+}
+
+
+function renderTasks(){
+
+  const html =
+    currentTasks
+      .map(taskHTML)
+      .join('');
+
+
+  $('allTasks')
+    .innerHTML =
+    html ||
+
+    `
+    <div class="card">
+
+      <p class="sub">
+        এখন কোনো task নেই।
+      </p>
+
+    </div>
+    `;
+
+
+  $('homeTasks')
+    .innerHTML =
+
+    currentTasks
+      .slice(0,3)
+      .map(taskHTML)
+      .join('') ||
+
+    `
+    <div class="card">
+
+      <p class="sub">
+        এখন কোনো task নেই।
+      </p>
+
+    </div>
+    `;
+
+}
+
+
+/* ================= COMPLETE TASK ================= */
+
+async function completeTask(id){
+
+  try{
+
+    const j =
+      await api(
+        '/api/tasks/'+id+'/complete',
+        {
+          method:'POST'
+        }
+      );
+
+
+    await loadData();
+
+
+    showPage('tasks');
+
+
+    alert(
+      'Task completed! You earned points.'
+    );
+
+
+  }catch(e){
+
+    alert(e.message);
+
+  }
+
+}
+
+
+/* ================= WITHDRAW ================= */
+
+async function withdrawPoints(){
+
+  $('withdrawMsg')
+    .textContent='';
+
+
+  const amount =
+    Number(
+      $('withdrawAmount')
+      .value
+    );
+
+
+  const method =
+    $('withdrawMethod')
+    .value;
+
+
+  const account =
+    $('withdrawAccount')
+    .value
+    .trim();
+
+
+  if(
+    !Number.isInteger(amount) ||
+    amount<100
+  ){
+
+    $('withdrawMsg')
+      .textContent=
+      'Minimum 100 points দিতে হবে';
+
+    return;
+
+  }
+
+
+  if(!account){
+
+    $('withdrawMsg')
+      .textContent=
+      'Account number দিন';
+
+    return;
+
+  }
+
+
+  try{
+
+    await api(
+      '/api/withdrawals',
+      {
+        method:'POST',
+
+        body:
+          JSON.stringify({
+
+            amount:amount,
+
+            method:method,
+
+            account:account
+
+          })
+
+      }
+    );
+
+
+    $('withdrawMsg')
+      .textContent=
+      'Withdrawal request submitted.';
+
+
+    $('withdrawAmount')
+      .value='';
+
+
+    $('withdrawAccount')
+      .value='';
+
+
+    await loadData();
+
+
+  }catch(e){
+
+    $('withdrawMsg')
+      .textContent=
+      e.message;
+
+  }
+
+}
+
+
+/* ================= REFERRAL ================= */
+
+async function shareReferral(){
+
+  const code =
+    currentUser?.referral_code ||
+    '';
+
+
+  const text =
+    'Join 1Minute Rewards. My referral code: '+
+    code;
+
+
+  if(
+    navigator.share
+  ){
+
+    try{
+
+      await navigator.share({
+
+        title:
+          '1Minute Rewards',
+
+        text:text
+
+      });
+
+    }catch(e){}
+
+  }else{
+
+    try{
+
+      await navigator.clipboard
+        .writeText(code);
+
+
+      alert(
+        'Referral code copied: '+
+        code
+      );
+
+    }catch(e){
+
+      alert(code);
+
+    }
+
+  }
+
+}
+
+
+/* ================= PAGE NAVIGATION ================= */
+
+function showPage(page){
+
+  [
+    'home',
+    'tasks',
+    'wallet',
+    'refer',
+    'profile'
+
+  ].forEach(
+
+    p=>{
+
+      $('page-'+p)
+        .classList
+        .toggle(
+          'hidden',
+          p!==page
+        );
+
+    }
+
+  );
+
+
+  document
+    .querySelectorAll(
+      '.navItem'
+    )
+    .forEach(
+
+      b=>{
+
+        b.classList.toggle(
+          'active',
+          b.dataset.page===page
+        );
+
+      }
+
+    );
+
+
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  });
+
+}
+
+
+/* ================= LOGOUT ================= */
+
+function logout(){
+
+  localStorage.removeItem(
+    '1mr_token'
+  );
+
+
+  tk=null;
+
+  currentUser=null;
+
+
+  $('app')
+    .classList
+    .add('hidden');
+
+
+  $('authPage')
+    .classList
+    .remove('hidden');
+
+
+  showLogin();
+
+}
+
+
+/* ================= SECURITY ================= */
+
+function escapeHTML(s){
+
+  return String(s)
+    .replace(
+      /[&<>"']/g,
+      m=>({
+
+        '&':'&amp;',
+        '<':'&lt;',
+        '>':'&gt;',
+        '"':'&quot;',
+        "'":'&#039;'
+
+      }[m])
+    );
+
+}
+
+
+/* ================= AUTO LOGIN ================= */
+
+if(tk){
+
+  startApp();
+
+}else{
+
+  showLogin();
+
+}
+
+</script>
+
+</body>
+</html>
